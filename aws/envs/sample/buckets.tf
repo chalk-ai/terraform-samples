@@ -13,8 +13,8 @@ resource "aws_s3_bucket" "data-transfer" {
 }
 
 
-// this is the bucket that stores customer datasets
-resource "aws_s3_bucket" "customer-datasets" {
+// this is the bucket that stores long-lived datasets
+resource "aws_s3_bucket" "datasets" {
   bucket = "${var.organization_name}}-chalk-${var.account_short_name}-query-dataset"
 }
 

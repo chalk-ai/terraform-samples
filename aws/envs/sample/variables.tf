@@ -1,3 +1,5 @@
+// General configuration
+
 variable "account_id" {
     type=string
     description = "The AWS account ID that Chalk should be deployed to."
@@ -36,6 +38,39 @@ variable "account_short_name" {
   }
 }
 
+// End general configuration
+
+// Kafka configuration
+
+variable "msk_cluster_name" {
+  type = string
+  default = null
+  description = "The name of the Kafka cluster that Chalk should use."
+}
+
+variable "msk_username" {
+    type = string
+    default = "chalk"
+    description = "The username that Chalk should use to connect to the Kafka cluster."
+}
+
+variable "msk_password" {
+    type = string
+    default = "password"
+    description = "The password that Chalk should use to connect to the Kafka cluster."
+}
+
+variable "msk_instance_type" {
+    type = string
+    default = "kafka.t3.small" # Unsuitable for production, but typically works for proof-of-concept. Can be changed.
+    description = "The instance type that the Kafka cluster should use."
+}
+
+// End kafka configuration
+
+
+// Bucket configuration
+
 variable "temporary_data_retention_days" {
   type = number
   default = 7
@@ -51,11 +86,17 @@ variable "dashboard_urls" {
   default = ["https://chalk.ai"]
 }
 
+// End bucket configuration
+
+
 locals {
-  # i.e. your company name, but in a format suitable for an s3 bucket name component
+  msk_cluster_name = var.msk_cluster_name != null ? var.msk_cluster_name : "chalk-${var.organization_name}-${var.account_short_name}-msk"
+}
 
 
 
+// Kubernetes configuration
 
-
+variable eks_cluster_name {
+  type = string
 }
