@@ -21,6 +21,7 @@ variable "organization_name" {
 
   validation {
     condition = length(var.organization_name) <= 10 && length(var.organization_name) > 0 && can(regex("^[a-z0-9]*$", var.organization_name))
+    error_message = "organization_name must be 10 characters or less, and contain no special characters"
   }
 }
 
