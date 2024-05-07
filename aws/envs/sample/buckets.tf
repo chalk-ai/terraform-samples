@@ -1,24 +1,28 @@
 
 
 // This bucket stores .tar.gz files that contain your source code.
+// Typically order of a few gigabytes; we recommend no expiration policy, but 
+// if you set one, perhaps a year.
 resource "aws_s3_bucket" "source" {
   bucket = "${var.organization_name}-chalk-${var.account_short_name}-source"
 }
 
 
 // This is used for offline store data transfer and other
-// temporary data transfer; should have a retention policy
+// temporary data transfer; should have an expiration policy
 resource "aws_s3_bucket" "data-transfer" {
   bucket = "${var.organization_name}}-chalk-${var.account_short_name}-data-transfer"
 }
 
 
-// this is the bucket that stores long-lived datasets
+// this is the bucket that stores long-lived datasets. typically should never be deleted
+// unless for compliance reasons.
 resource "aws_s3_bucket" "datasets" {
   bucket = "${var.organization_name}}-chalk-${var.account_short_name}-query-dataset"
 }
 
-// this bucket stores intermediate plan data and plan metadata
+// this bucket stores intermediate plan data and plan metadata. we recommend retaining
+// for 30 days. low data volume, very useful for support & user debugging.
 resource "aws_s3_bucket" "debug" {
   bucket = "${var.organization_name}-chalk-${var.account_short_name}-debug"
 }
