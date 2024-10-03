@@ -1,5 +1,3 @@
-
-
 // This bucket stores .tar.gz files that contain your source code.
 // Typically order of a few gigabytes; we recommend no expiration policy, but 
 // if you set one, perhaps a year.
