@@ -6,10 +6,56 @@ variable "background_persistence_role_name" {
   default = "chalk-background-persistence"
 }
 
+locals {
+  actions = [
+    "eks:*",
+    "ecr:*",
+    "iam:GetPolicy",
+    "iam:GetPolicyVersion",
+    "iam:GetRole",
+    "iam:PassRole",
+    "cloudwatch:*",
+    "iam:ListRolePolicies",
+    "iam:GetRolePolicy",
+    "iam:ListAttachedRolePolicies",
+    "iam:ListPolicyVersions",
+    "iam:CreateOpenIDConnectProvider",
+    "iam:TagOpenIDConnectProvider",
+    "iam:GetOpenIDConnectProvider",
+    "iam:DeleteOpenIDConnectProvider",
+    "iam:ListInstanceProfilesForRole",
+    "iam:ListInstanceProfilesForRole",
+    "iam:TagRole",
+    "iam:TagPolicy",
+    "ec2:*",
+    "secretsmanager:*",
+    "dynamodb:*",
+    "kms:*",
+    "s3:*",
+    "logs:*",
+    "kafka:*",
+    "rds:*",
+    "acm:*",
+    "elasticloadbalancing:*",
+    "route53:*",
+    "events:*",
+    "lambda:*"
+  ]
+}
+
 resource "aws_iam_role" "management_role" {
   name               = var.management_role_name
   description        = "Management role used by Chalk's API server to manage Chalk resources."
-  assume_role_policy = jsonencode()
+  assume_role_policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : [
+      {
+        Effect : "Allow",
+        Action : local.actions
+        Resource : "*"
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role" "workload_role" {
