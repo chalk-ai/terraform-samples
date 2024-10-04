@@ -1,6 +1,6 @@
 module "vpc" {
-  source     = "../../modules/vpc"
-  name       = "${var.organization_name}-${var.account_short_name}"
+  source = "../../modules/vpc"
+  name   = "${var.organization_name}-${var.account_short_name}"
 
   // These ranges are customizable, but this would work.
   // We recommend a /16 for simplicity.

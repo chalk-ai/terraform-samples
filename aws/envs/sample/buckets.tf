@@ -1,5 +1,3 @@
-
-
 // This bucket stores .tar.gz files that contain your source code.
 // Typically order of a few gigabytes; we recommend no expiration policy, but 
 // if you set one, perhaps a year.
@@ -37,7 +35,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data-transfer-lifecycle-config
     id     = "expire-bulk-inserts"
 
     expiration {
-      days = local.temporary_data_retention_days
+      days = var.temporary_data_retention_days
     }
   }
 }
@@ -51,7 +49,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "debug-lifecycle-config" {
     id     = "expire-debug-data"
 
     expiration {
-      days = local.debug_data_retention_days
+      days = var.debug_data_retention_days
     }
   }
 }
@@ -62,6 +60,6 @@ resource "aws_s3_bucket_cors_configuration" "source_cors_config" {
 
   cors_rule {
     allowed_methods = ["GET"]
-    allowed_origins = local.dashboard_urls
+    allowed_origins = var.dashboard_urls
   }
 }
